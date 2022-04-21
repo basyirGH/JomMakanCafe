@@ -1,0 +1,14 @@
+[
+
+	{
+		"table": "A",
+		"status": "AVAILABLE"
+		
+	},
+
+	{
+		"table": "B",
+		"status": "AVAILABLE"
+	}
+
+]

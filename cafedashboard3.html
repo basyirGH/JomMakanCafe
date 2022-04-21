@@ -1,0 +1,115 @@
+<html lang="en">
+  
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <!-- INCLUDING JQUERY-->
+    <script src=
+"https://code.jquery.com/jquery-3.5.1.js">
+    </script>
+  
+    <!-- CSS FOR STYLING THE PAGE -->
+    <style>
+        table {
+            margin: 0 auto;
+            font-size: large;
+            font-family: 'Gill Sans', 
+                'Gill Sans MT', ' Calibri', 
+                'Trebuchet MS', 'sans-serif';
+            border: 1px solid black;
+        }
+  
+        h1 {
+            text-align: center;
+            color: #006600;
+            font-size: xx-large;
+            font-family: 'Gill Sans', 
+                'Gill Sans MT', ' Calibri', 
+                'Trebuchet MS', 'sans-serif';
+        }
+
+        .center {
+            text-align: center;
+            display: block;
+        }
+  
+        td {
+            background-color: #E4F5D4;
+            border: 1px solid black;
+        }
+  
+        th,
+        td {
+            font-weight: bold;
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+  
+        td {
+            font-weight: lighter;
+        }
+    </style>
+</head>
+  
+<body>
+    <section>
+        <h1 align="center">JomMakan Cafe</h1>
+        <h3 align="center">Staff Dashboard</h3>
+        <!--<form class="center" action="/api/v1/resources/jommakan/changestatus/tables/page" method="get">
+            <input type="submit" value="Change Table Status">
+        </form>
+        <br>-->
+
+          <table id='table'>
+            <tr id='row1'></tr>
+            <tr id='row2'></tr>
+           
+        </table>
+
+            <script>
+                $(document).ready(function () {
+  
+                    // FETCHING DATA FROM JSON FILE
+                    $.getJSON("http://192.168.100.60:5000/api/v1/resources/jommakan/tables/all", 
+                            function (data) {
+                        var row1 = '';
+                        var row2 = '';
+                        var colCount = 0;
+  
+                        // ITERATING THROUGH OBJECTS
+                        $.each(data, function (key, value) {
+  
+                            //CONSTRUCTION OF ROWS HAVING
+                            // DATA FROM JSON OBJECT
+                            
+                            if (colCount < 3) {
+                                row1 += '<td><b>TABLE '+value.table+'</b>';
+                                row1 += '<br/><span style="color:red"> '+value.status+'</span><hr>';
+                                row1 += 'Food: '+value.food+'';
+                                row1 += '<br/> Drink: '+value.drink+'';
+                                row1 += '<br/> Date/Time: '+value.time+'</td>';
+                            }
+
+                            else {
+                                row2 += '<td><b>TABLE '+value.table+'</b>';
+                                row2 += '<br/><span style="color:red">  '+value.status+'</span><hr>';
+                                row2 += 'Food: '+value.food+'';
+                                row2 += '<br/> Drink: '+value.drink+'';
+                                row2 += '<br/> Date/Time: '+value.time+'</td>';
+                            }
+                            colCount++;
+                        });
+                        $('#row1').append(row1);
+                        $('#row2').append(row2);
+                          
+                        
+                    });
+                });
+            </script>
+    </section>
+</body>
+  
+</html>

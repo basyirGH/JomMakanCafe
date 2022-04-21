@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<style>
+table {
+    width: 50%;
+}
+th {
+    background: #f1f1f1;
+    font-weight: bold;
+    padding: 6px;
+}
+td {
+    background: #f9f9f9;
+    padding: 6px;
+}
+</style>
+
+<body>
+    <table id="myTable">
+    <tr>
+        <th>Table</th>
+        <th>Status</th>
+    </tr>
+</table>
+
+<script type="text/javascript">
+$.ajax({
+    url: "table.json"
+    dataType: 'json',
+    success: function(data) {
+        for (var i=0; i<data.length; i++) {
+            var row = $('<tr><td>' + data[i].table+ '</td><td>' + data[i].status + '</td>');
+            $('#myTable').append(row);
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+        alert('Error: ' + textStatus + ' - ' + errorThrown);
+    }
+});
+</script>
+</body>
+
+</html>

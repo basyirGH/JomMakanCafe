@@ -1,0 +1,111 @@
+<html lang="en">
+  
+<head>
+    <meta charset="UTF-8">
+    <title>Order Summary</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <!-- INCLUDING JQUERY-->
+    <script src=
+"https://code.jquery.com/jquery-3.5.1.js">
+    </script>
+  
+    <!-- CSS FOR STYLING THE PAGE -->
+    <style>
+        table, label {
+            margin: 0 auto;
+            font-size: large;
+            font-family: 'Gill Sans', 
+                'Gill Sans MT', ' Calibri', 
+                'Trebuchet MS', 'sans-serif';
+        }
+  
+        h1 {
+            text-align: center;
+            color: #006600;
+            font-size: xx-large;
+            font-family: 'Gill Sans', 
+                'Gill Sans MT', ' Calibri', 
+                'Trebuchet MS', 'sans-serif';
+        }
+        .item {
+            width: 400px;
+        }
+
+        .center {
+            text-align: center;
+            display: block;
+        }
+  
+      
+    </style>
+</head>
+  
+<body>
+    <section>
+        <h1 align="center">JomMakan Cafe</h1>
+        <h3 align="center">Your order has been accepted</h3>
+        <h4 align="center">Thank You for dining at JomMakan Cafe. Kindly wait for your order to arrive. Enjoy! </h4>
+     
+        <table align="center">
+            <tr>
+                <td><b>Order Summary</b></td>
+            </tr><hr>
+
+            <tr>
+                <td><label for="selectedtable"> Table: </label></td>
+                <td><input id="selectedtable" name="ordertable" type="text" readonly></td> <br><br>
+            </tr>
+
+            <tr>
+                <td><label for="selectedfood"> Food: </label></td>
+                <td><textarea id="selectedfood" name="orderfood" rows="5" cols="50" readonly> </textarea> <br><br></td>
+            </tr>
+
+            <tr>
+                <td><label for="selecteddrink"> Drink: </label></td>
+                <td><textarea id="selecteddrink" name="orderdrink" rows="5" cols="50" readonly> </textarea> <br><br></td>
+            </tr>
+        </table>
+
+        <script>
+            var table = GetURLParameter('table');
+
+            document.getElementById('selectedtable').value = table;
+        
+            function GetURLParameter(sParam)
+            {
+                var sPageURL = window.location.search.substring(1);
+                var sURLVariables = sPageURL.split('&');
+                for (var i = 0; i < sURLVariables.length; i++) 
+                {
+                    var sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] == sParam) 
+                    {
+                        return sParameterName[1];
+                    }
+                }
+            }
+    
+            $(document).ready(function () {
+  
+                    // FETCHING DATA FROM JSON FILE
+                    $.getJSON("http://192.168.100.60:5000//api/v1/resources/jommakan?name="+table, 
+                            function (data) {
+                       
+                        // ITERATING THROUGH OBJECTS
+                        $.each(data, function (key, value) {
+  
+                            document.getElementById('selectedfood').value = value.food;
+                            document.getElementById('selecteddrink').value = value.drink;
+
+                        });
+                    });
+                });
+        </script>
+
+       
+    </section>
+</body>
+  
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Flask Template Example</title>
+ <link href="{{ url_for('static', filename='dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+ <!--<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet"> -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+ {% block header %}
+ <h1>Flask Template Example</h1>
+ {% endblock %}
+
+ {% block content %}
+ {% endblock %}
+</body>
+</html>

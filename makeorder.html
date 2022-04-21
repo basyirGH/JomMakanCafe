@@ -1,0 +1,182 @@
+<html lang="en">
+  
+<head>
+    <meta charset="UTF-8">
+    <title>Make Order</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <!-- INCLUDING JQUERY-->
+    <script src=
+"https://code.jquery.com/jquery-3.5.1.js">
+    </script>
+  
+    <!-- CSS FOR STYLING THE PAGE -->
+    <style>
+        table, label {
+            margin: 0 auto;
+            font-size: large;
+            font-family: 'Gill Sans', 
+                'Gill Sans MT', ' Calibri', 
+                'Trebuchet MS', 'sans-serif';
+        }
+  
+        h1 {
+            text-align: center;
+            color: #006600;
+            font-size: xx-large;
+            font-family: 'Gill Sans', 
+                'Gill Sans MT', ' Calibri', 
+                'Trebuchet MS', 'sans-serif';
+        }
+        .item {
+            width: 400px;
+        }
+
+        .center {
+            text-align: center;
+            display: block;
+        }
+  
+      
+    </style>
+</head>
+  
+<body>
+    <section>
+        <h1 align="center">JomMakan Cafe</h1>
+  
+        <!-- TABLE CONSTRUCTION-->
+        <label class="center" for="selecttable">Table :</b> 
+        <select id="selecttable" onchange="getTable(value);">
+            <option value="">Please Select Table</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+        </select>
+        <table id='table1'>
+            <tr>
+                <td><b>Food</b></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>#</td>
+                <td class="item">Menu</td>
+                <td>Quantity</td>
+            </tr>
+          
+        </table>
+
+        <br>
+        <table id='table2'>
+            <tr>
+                <td><b>Drink</b></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>#</td>
+                <td class="item">Menu</td>
+                <td>Quantity</td>
+            </tr>
+        </table>
+
+        <form action="http://192.168.100.60:5000/post_makeorder_form" enctype="multipart/form-data" method="POST" id='form1'>
+            <table>
+                <p><b>Order Summary</b></p>
+                <tr>
+                    <label for="selectedtable"> Table: </label>
+                    <input id="selectedtable" name="ordertable" type="text" readonly> <br><br>
+                </tr>
+
+                <tr>
+                    <td><label for="selectedfood"> Food: </label></td>
+                    <td><textarea id="selectedfood" name="orderfood" rows="5" cols="50" readonly> </textarea> <br><br></td>
+                </tr>
+
+                <tr>
+                    <td><label for="selecteddrink"> Drink: </label></td>
+                    <td><textarea id="selecteddrink" name="orderdrink" rows="5" cols="50" readonly> </textarea> <br><br></td>
+                </tr>
+            </table>
+            <input type="submit">
+        </form>
+
+
+
+        <script>
+            function getTable(table) {
+                document.getElementById('selectedtable').value = table;
+            }
+
+            function getFood(food) {    
+                orderedfood = ' ' + food;
+                $('#selectedfood').append(orderedfood);
+            }
+
+            function getDrink(drink) {
+                ordereddrink = ' ' + drink;
+                $('#selecteddrink').append(ordereddrink);
+            }
+        </script>
+
+        <script>
+            $(document).ready(function () {
+
+                // FETCHING DATA FROM JSON FILE
+                $.getJSON("http://192.168.100.60:5000/api/v1/resources/jommakan/menu/food", 
+                        function (data) {
+                   
+                   var foodCount = 1;
+                   var rowfood = '';
+
+                    $.each(data, function (key, value) {
+
+                        //CONSTRUCTION OF ROWS HAVING
+                        // DATA FROM JSON OBJECT
+                    
+                        rowfood += '<tr>';
+                        rowfood += '<td>'+foodCount+'</td>';
+                        rowfood += '<td class="item">'+value.name+'</td>';
+                        rowfood += '<td><select onchange="getFood(value);"> <option value="0">0</option> <option value="1x '+value.name+'">1</option> <option value="2x '+value.name+'">2</option> <option value="3x '+value.name+'">3</option> </select></td>';
+                        rowfood += '</tr>';
+                        foodCount++;
+                    });
+
+                    $('#table1').append(rowfood);
+                      
+                    
+                });
+            });
+            $(document).ready(function () {
+                $.getJSON("http://192.168.100.60:5000/api/v1/resources/jommakan/menu/drink", 
+                        function (data) {
+                   
+                   var drinkCount = 1;
+                   var rowdrink = '';
+
+                    $.each(data, function (key, value) {
+
+                        //CONSTRUCTION OF ROWS HAVING
+                        // DATA FROM JSON OBJECT
+                    
+                        rowdrink += '<tr>';
+                        rowdrink += '<td>'+drinkCount+'</td>';
+                        rowdrink += '<td class="item">'+value.name+'</td>';
+                        rowdrink += '<td><select onchange="getDrink(value);"> <option value="0">0</option> <option value="1x '+value.name+'">1</option> <option value="2x '+value.name+'">2</option> <option value="3x '+value.name+'">3</option> </select></td>';
+                        rowdrink += '</tr>';
+                        drinkCount++;
+                    });
+
+                    $('#table2').append(rowdrink);
+                    
+                });
+            });
+        </script>
+    </section>
+</body>
+  
+</html>
